@@ -12,12 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
-
-    - name: Checkout original repo dev branch
-      run: |
-        git remote add upstream https://github.com/music-assistant/server.git
-        git fetch upstream dev
-        git merge upstream/dev --no-commit --no-ff
+      with:
+        repository: 'https://github.com/music-assistant/server'
 
     - name: Install uv
       uses: astral-sh/setup-uv@v7
