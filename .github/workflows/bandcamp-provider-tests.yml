@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v6
       with:
-        repository: 'https://github.com/music-assistant/server'
+        repository: 'music-assistant/server'
 
     - name: Install uv
       uses: astral-sh/setup-uv@v7
