@@ -1,0 +1,45 @@
+name: Bandcamp Provider Tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */7 * *' # At 00:00 on every 7th day-of-month.
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Checkout original repo dev branch
+      run: |
+        git remote add upstream https://github.com/music-assistant/server.git
+        && git fetch upstream dev
+        && git merge upstream/dev --no-commit --no-ff
+        && git status
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v7
+
+    - name: Set up Python
+      run: |
+        uv sync --extra test
+        && uv pip install -r requirements_all.txt
+
+    - name: Run Bandcamp provider tests
+      run: uv run pytest tests/providers/bandcamp
+
+    - name: Notify on failure
+      if: failure()
+      uses: actions/github-script@v8
+      with:
+        script: |
+          const issue = {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: 'Bandcamp Provider Tests Failed',
+            body: 'The Bandcamp provider tests have failed. Please investigate.'
+          };
+          await github.rest.issues.create(issue);
