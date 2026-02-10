@@ -46,7 +46,7 @@ jobs:
         uv pip install -r requirements_all.txt
 
     - name: Run Bandcamp provider tests
-      run: uv run pytest music_assistant/tests/providers/bandcamp --no-cov
+      run: uv run pytest tests/providers/bandcamp --no-cov
 
     - name: Notify on failure
       if: failure()
