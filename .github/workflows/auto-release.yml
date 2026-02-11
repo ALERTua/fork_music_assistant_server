@@ -6,9 +6,9 @@ name: Auto Release
 # - Stable: manual trigger (format: 1.2.3, 1.2.4, etc.)
 
 on:
-  schedule:
+#  schedule:
     # Run at 03:00 UTC every day for nightly releases
-    - cron: "0 3 * * *"
+#    - cron: "0 3 * * *"
   workflow_dispatch:
     inputs:
       channel:
